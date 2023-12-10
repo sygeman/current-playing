@@ -13,7 +13,7 @@
   setInterval(() => {
     const meta = navigator.mediaSession.metadata;
     const data = {
-      title: meta?.album,
+      title: meta?.title || meta?.album,
       imageUrl: meta?.artwork[meta?.artwork.length - 1]?.src,
       artist: meta?.artist,
     };
