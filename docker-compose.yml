@@ -1,0 +1,4 @@
+services:
+  current-playing:
+    build: ./
+    ports: ["5644:5644"]

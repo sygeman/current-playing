@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Playing</title>
+    <link rel="stylesheet" crossorigin href="/public/index-16hzBui7.css" />
+  </head>
+  <body>
+    <div class="h-screen bg-background flex">
+      <div class="w-full h-full relative overflow-hidden">
+        <div
+          id="bg-cover"
+          class="absolute insert-0 h-full w-full bg-center bg-no-repeat bg-cover blur-lg brightness-50 transition-all"
+        ></div>
+        <div class="flex absolute left-0 bottom-0">
+          <img id="cover" class="h-16 w-16 transition-all" />
+          <div class="flex justify-center px-4 flex-col text-xl">
+            <span id="artist" class="text-white/80"></span>
+            <span id="title" class="text-white"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      let id = null;
+
+      const updateData = () => {
+        fetch("http://localhost:5644/data", {
+          headers: { "Content-Type": "application/json" },
+        })
+          .then((res) => res.json())
+          .then(({ data, id: newId }) => {
+            if (!data || id === newId) return;
+
+            const imageUrl = data.imageUrl;
+            const artist = data.artist;
+            const title = data.title;
+
+            id = newId;
+
+            document.getElementById(
+              "bg-cover"
+            ).style.backgroundImage = `url(${imageUrl})`;
+            document.getElementById("cover").src = imageUrl;
+            document.getElementById("artist").innerText = artist;
+            document.getElementById("title").innerText = title;
+          });
+      };
+
+      updateData();
+      const interval = setInterval(() => updateData(), 1000);
+    </script>
+  </body>
+</html>
