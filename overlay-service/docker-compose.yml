@@ -1,4 +1,5 @@
 services:
   current-playing:
-    build: ./
+    # build: ./
+    image: ghcr.io/sygeman/current-playing:main
     ports: ["5644:5644"]
