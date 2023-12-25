@@ -8,12 +8,35 @@ on:
 
 jobs:
 
-  build:
-
+  push_to_registries:
+    name: Push Docker image
     runs-on: ubuntu-latest
-
+    permissions:
+      packages: write
+      contents: read
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      working-directory: ./overlay-service
-      run: docker build . --file Dockerfile --tag current-playing:latest
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Log in to the Container registry
+        uses: docker/login-action
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action
+        with:
+          images: |
+            sygeman/current-playing
+            ghcr.io/${{ github.repository }}
+      
+      - name: Build and push Docker images
+        uses: docker/build-push-action
+        with:
+          context: .
+          push: true
+          # tags: ${{ steps.meta.outputs.tags }}
+          # labels: ${{ steps.meta.outputs.labels }}
