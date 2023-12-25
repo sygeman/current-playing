@@ -15,4 +15,5 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build ./overlay-service/ --file Dockerfile --tag current-playing:latest
+      working-directory: ./overlay-service
+      run: docker build . --file Dockerfile --tag current-playing:latest
