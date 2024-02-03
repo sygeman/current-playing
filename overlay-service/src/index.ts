@@ -18,6 +18,8 @@ const app = new Elysia()
   .post(
     "/",
     ({ body }) => {
+      console.log('New data', body)
+
       if (
         (body.data === null && data === null) ||
         (body.data.artist === data?.artist &&

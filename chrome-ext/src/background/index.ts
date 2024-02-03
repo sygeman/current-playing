@@ -1,6 +1,6 @@
 chrome.runtime.onMessage.addListener((request, _sender, senderResponse) => {
   if (request.type === 'MEDIA') {
-    fetch('http://localhost:5644/', {
+    fetch('https://cp.sgmn.dev/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ data: request?.data }),
